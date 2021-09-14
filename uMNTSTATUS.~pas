@@ -1,0 +1,91 @@
+unit uMNTSTATUS;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, DBCtrls, Mask, ComCtrls, Buttons, DB;
+
+type
+  TfrmStatus = class(TForm)
+    PageControl1: TPageControl;
+    btnSalvar: TSpeedButton;
+    btnCancelar: TSpeedButton;                                                                             
+    TabSheet1: TTabSheet;
+    Label1: TLabel;
+    edtCodStatus: TEdit;
+    Label2: TLabel;
+    edtStatus: TDBEdit;
+    chxEncerraChamado: TDBCheckBox;
+    dsStatus: TDataSource;
+    procedure FormShow(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnSalvarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmStatus: TfrmStatus;
+
+implementation
+
+uses DTMPRINCIPAL;
+
+{$R *.dfm}
+
+
+
+procedure TfrmStatus.FormShow(Sender: TObject);
+begin
+     if dsStatus.State in [dsInsert] then
+          dmPrincipal.cdsStatusencerra_chamado.AsString := 'N';
+     if dsStatus.State in [dsEdit] then
+          edtCodStatus.Text := IntToStr(dmPrincipal.cdsStatuscod_status.AsInteger);
+
+end;
+
+procedure TfrmStatus.btnCancelarClick(Sender: TObject);
+begin
+     if dsStatus.State in [dsInsert,dsEdit] then
+          dmPrincipal.cdsStatus.CancelUpdates;
+     Close;
+end;
+
+procedure TfrmStatus.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+     if dsStatus.State in [dsInsert,dsEdit] then
+          dmPrincipal.cdsStatus.CancelUpdates;
+end;
+
+procedure TfrmStatus.btnSalvarClick(Sender: TObject);
+var
+     cod_status :Integer;
+begin
+     if edtStatus.Text = '' then
+     begin
+          ShowMessage('A descrição do status não pode ser nulo! ');
+          edtStatus.SetFocus;
+          Abort;
+     end;
+     if dsStatus.State in [dsInsert] then
+     begin
+          dmPrincipal.qryTemp.close;
+          dmPrincipal.qryTemp.SQL.Clear;
+          dmPrincipal.qryTemp.SQL.Add('select max(cod_status) as codigo from status_chamado');
+          dmPrincipal.qryTemp.open;
+          cod_status := dmPrincipal.qryTemp.FieldByName('codigo').AsInteger;
+
+          dmPrincipal.cdsStatuscod_status.AsInteger := cod_status + 1;
+     end;
+     dmPrincipal.cdsStatus.Post;
+     dmPrincipal.cdsStatus.ApplyUpdates(0);
+
+     close;
+
+end;
+
+end.
