@@ -1,0 +1,90 @@
+unit uMAIL;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, DB, Mask, DBCtrls;
+
+type
+  TfrmAddMail = class(TForm)
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    edtmail_1: TDBEdit;
+    edtmail_2: TDBEdit;
+    edtmail_3: TDBEdit;
+    edtmail_4: TDBEdit;
+    edtmail_5: TDBEdit;
+    dsMail: TDataSource;
+    btnSalvar: TBitBtn;
+    btnSair: TBitBtn;
+    procedure FormShow(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmAddMail: TfrmAddMail;
+  mail_1 : String;
+  mail_2 : String;
+  mail_3 : String;
+  mail_4 : String;
+  mail_5 : String;
+
+implementation
+
+uses DTMPRINCIPAL, uMNTCLIENTES;
+
+{$R *.dfm}
+
+procedure TfrmAddMail.FormShow(Sender: TObject);
+begin
+     mail_1 := '';
+     mail_2 := '';
+     mail_3 := '';
+     mail_4 := '';
+     mail_5 := '';
+     if frmCadClientes.dsCliente.State in [dsInsert] then
+     begin
+          dmPrincipal.cdsMail.close;
+          dmPrincipal.cdsMail.Open;
+          dmPrincipal.cdsMail.Insert;
+     end;
+     if frmCadClientes.dsCliente.State in [dsEdit] then
+     begin
+          dmPrincipal.qryMail.close;
+          dmPrincipal.qryMail.sql.text := 'select * from email_cliente where cod_cliente = '+QuotedStr(dmPrincipal.cdsClientescod_cliente.AsString);
+          dmPrincipal.qryMail.open;
+          dmPrincipal.cdsMail.close;
+          dmPrincipal.cdsMail.Open;
+          dmPrincipal.cdsMail.Edit;
+     end;
+end;
+
+procedure TfrmAddMail.btnSairClick(Sender: TObject);
+begin
+     if dsMail.State in [dsInsert,dsEdit] then
+          dmPrincipal.cdsMail.CancelUpdates;
+     Close;
+end;
+
+procedure TfrmAddMail.btnSalvarClick(Sender: TObject);
+begin
+     mail_1 := edtmail_1.Text;
+     mail_2 := edtmail_2.Text;
+     mail_3 := edtmail_3.Text;
+     mail_4 := edtmail_4.Text;
+     mail_5 := edtmail_5.Text;
+     close;
+end;
+
+
+end.
