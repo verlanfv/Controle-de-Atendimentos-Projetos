@@ -1,0 +1,43 @@
+unit uUSUARIOS;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, Grids, DBGrids, StdCtrls, Buttons, ExtCtrls, DB;
+
+type
+  TfrmConUsuarios = class(TForm)
+    pnlBotoes: TPanel;
+    btnPrimeiro: TSpeedButton;
+    btnAnterior: TSpeedButton;
+    btnProximo: TSpeedButton;
+    btnUltimo: TSpeedButton;
+    btnVisualiza: TSpeedButton;
+    btnFiltro: TSpeedButton;
+    btnExporta: TSpeedButton;
+    btnAdiciona: TSpeedButton;
+    btnAltera: TSpeedButton;
+    btnExclui: TSpeedButton;
+    btnSair: TSpeedButton;
+    pnlOrdem: TPanel;
+    edtOrdem: TEdit;
+    edtIndice: TEdit;
+    grdUsuario: TDBGrid;
+    dsUsuario: TDataSource;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConUsuarios: TfrmConUsuarios;
+
+implementation
+
+uses DTMPRINCIPAL;
+
+{$R *.dfm}
+
+end.
