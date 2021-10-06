@@ -1,0 +1,12 @@
+
+
+=========================== Configuração sistema ===============================
+
+===== A pasta 'help_desk', deve ser colada no 'C:\' da máquina do usuário  =====
+===== Verificar se a pasta 'help_desk' contém o arquivo 'conexao.ini'      =====
+
+===== Cadastrar os Parâmetros Gerais.                                      =====
+
+===== Cadastrar os STATUS ( 1 = AGUARDANDO ATENDIMENTO, 2 = ABERTO,        ===== 
+=====  3 = FINALIZADO, 4 = EM COMPROMISSO, 5 = INTERNO)                    =====
+================================================================================
